@@ -1,0 +1,22 @@
+Stryker Team: Dianet Perez, Steven Scott, Matthew Johnson, Dmytro Turchak, Alison Young
+
+- Global labeling platform (broader opportunity than JR and Trauma for labeling translations)
+- Label Quality check: Label from one system to a new system
+- Data systems are not the same for 12K labels; there is a label template
+- Review of label design
+- Looking for funding to kick off project 2027
+- For migration Prisym 360 ([https://www.loftware.com/resources/brochures/loftware-prisym-360-streamlines-clinical-supply-labeling](https://www.loftware.com/resources/brochures/loftware-prisym-360-streamlines-clinical-supply-labeling))
+- Create new labels from scratch
+- Job to be done: is the label correct (from old to new system)
+- Job to be done: new labels that don't exist and review
+- Job to be done: update labels in the new system
+- Quality: more than one review, there are checks in place
+- Label content is owned, reviewed and approved by different parts of the business
+- Source of Truth: an Excel doc populated by the functions, and they sign off on this document (in English) -> this file is used for translations from a Vendor -> upload into the labeling system -> label print -> with a new label, the review is done by the functions  (18 languages for translation)
+- Source of Truth and Label Review (this is what the AI uses as comparison)
+- The upload file can be problematic. A user won't know if something is wrong until they see the Label Preview
+- There are templates for most of the products
+- Regulatory: Team is looking at Global standards, Accuris ([https://accuristech.com](https://accuristech.com)) about to subscribe to regulations and their updaters (someone is assigned to this), and it's trickled down.
+- Assessing a change in regulation: there is an internal template to assess the impact
+- Licensing with Accuris (everything is encrypted when downloaded)
+- All the data points, process sessions
