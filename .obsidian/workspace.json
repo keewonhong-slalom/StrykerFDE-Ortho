@@ -25,10 +25,10 @@
             "state": {
               "type": "image",
               "state": {
-                "file": "raw/Ortho Labeling Workflows.drawio.svg"
+                "file": "raw/Ortho Label Creation Workflows.drawio.svg"
               },
               "icon": "lucide-image",
-              "title": "Ortho Labeling Workflows.drawio"
+              "title": "Ortho Label Creation Workflows.drawio"
             }
           }
         ],
@@ -207,16 +207,22 @@
   },
   "active": "05fecb6bea910452",
   "lastOpenFiles": [
+    "raw/Ortho Label Creation Workflows.drawio.svg.crswap",
+    "raw/Ortho Label Revision Workflows.svg",
+    "raw/README.md",
+    "raw/strykerortho20260206.md",
+    "raw/Ortho Labeling Workflows.drawio.svg",
+    "raw/Ortho Label Revision Workflows.svg.crswap",
+    "raw/Ortho Label Creation Workflows.drawio.svg",
+    "raw/Ortho Label Revision Workflows.drawio.crswap",
+    "raw/Ortho Label Revision Workflows.drawio",
     "raw/Ortho Labeling Workflows.drawio.svg.crswap",
     "conflict-files-obsidian-git.md",
-    "raw/Ortho Labeling Workflows.drawio.svg",
-    "raw/README.md",
     "raw/Ortho Labeling Revision - Test Diagram.md",
     "raw/Untitled Diagram.svg",
     "Untitled Diagram.svg",
     "raw/4282026 Ortho JR Post Market Complaint Phase 2 - RJ Notes.md",
     "raw/4282026 Ortho PMCH - VA notes.md",
-    "raw/strykerortho20260206.md",
     "raw/4272026 Ortho Labeling Deep Dive.pdf",
     "documentation/README.md",
     "documentation/Use Case - Labeling/2026-04-27-scoring-sheet.md",
