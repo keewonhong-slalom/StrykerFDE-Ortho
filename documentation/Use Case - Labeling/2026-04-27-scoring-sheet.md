@@ -1,3 +1,4 @@
+Think about ways to make this easier to utilize, process is heavy right now
 # Stryker Use Case Scoring — Ortho JR Labeling AI
 
 **Date:** April 27, 2026  
