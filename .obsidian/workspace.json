@@ -37,7 +37,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Untitled.md",
+                "file": "raw/Untitled.md",
                 "mode": "source",
                 "source": false
               },
@@ -221,8 +221,9 @@
   },
   "active": "13e73b8a3e2a07f1",
   "lastOpenFiles": [
-    "raw/4272026 Ortho Labeling Deep Dive.pdf",
     "Untitled.md",
+    "raw/4272026 Ortho Labeling Deep Dive.pdf",
+    "raw/Untitled.md",
     "raw/4282026 Ortho PMCH - VA notes.md",
     "raw/README.md",
     "agents/build-prd.prompt.md",
