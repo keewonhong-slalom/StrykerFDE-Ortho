@@ -4,11 +4,11 @@
     "type": "split",
     "children": [
       {
-        "id": "8360f1c7247abe17",
+        "id": "160d200512e50dca",
         "type": "tabs",
         "children": [
           {
-            "id": "e25b6e19e61f8fdf",
+            "id": "3edc79b93cf8598b",
             "type": "leaf",
             "state": {
               "type": "empty",
@@ -74,7 +74,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 269.5
   },
   "right": {
     "id": "c3445ca9fa1ab191",
@@ -192,6 +192,9 @@
   },
   "active": "94802621ffebea0b",
   "lastOpenFiles": [
+    "reference/README.md",
+    "raw/4282026 Ortho JR Post Market Complaint Phase 2 - RJ Notes.md",
+    "raw/4272026 Ortho JR Labeling Deep Dive - RJ Notes.md",
     "raw/4282026 Ortho PMCH - VA notes.md",
     "raw/4272026 Ortho Labeling Deep Dive.pdf",
     "agents/build-prd.prompt.md",
@@ -201,7 +204,6 @@
     "agents/scoring-sheet.prompt.md",
     "raw/README.md",
     "context/README.md",
-    "reference/README.md",
     "raw/strykerortho20260206.md",
     "documentation/Use Case - Labeling/2026-04-27-scoring-sheet.md",
     "documentation/Use Case - Labeling/2026-04-27-use-case-brief-scoring-prep.md"
