@@ -8,12 +8,12 @@ Think about ways to make this easier to utilize, process is heavy right now
 
 **Scoring Guide:** Each question scored 1–5. Bucket Aggregate = average of question scores. Weighted Score = Aggregate × Bucket Weight. Final Score = sum of Weighted Scores (max = 70).
 
-| Bucket | Weight | Scale |
-|--------|--------|-------|
-| VALUE | 5 | 1 = no clear value → 5 = high efficiency / significant revenue or risk impact |
-| COST | 2 | 1 = very costly → 5 = very affordable |
-| EFFORT | 3 | 1 = most difficult → 5 = easiest |
-| REACH | 4 | 1 = most niche → 5 = broad and reusable |
+| Bucket | Weight | Scale                                                                         |
+| ------ | ------ | ----------------------------------------------------------------------------- |
+| VALUE  | 5      | 1 = no clear value → 5 = high efficiency / significant revenue or risk impact |
+| COST   | 2      | 1 = very costly → 5 = very affordable                                         |
+| EFFORT | 3      | 1 = most difficult → 5 = easiest                                              |
+| REACH  | 4      | 1 = most niche → 5 = broad and reusable                                       |
 
 > **Unknown items:** Annual new label volume (UC3 VALUE), metrics baseline (all UCs), Accuris pipeline details (UC4). Scores for those questions are conservative estimates or marked N/A.
 
