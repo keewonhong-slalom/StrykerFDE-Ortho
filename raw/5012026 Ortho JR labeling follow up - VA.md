@@ -4,4 +4,4 @@ Topics to discuss:
 	- Role/capabilities of existing Prisym system in the process
 	- Ideal report & certificate outputs
 - Review samples of label PDFs, source of truth documents, Prism upload files, and examples of revised labels
-- Shadow process to understand how label review & creation works
+- (If permitted by time/attendees) Shadow process to understand how label review & creation works
