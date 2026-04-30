@@ -13,6 +13,23 @@
 - Volume of - 
 	- Literature review & evidence synthesis - what's the team working on this and how often?
 	- Claim verification for marketing - what's the team working on this and how often? How often are there collateral packages published?
-- 
+
+Help identify claims in doc and ground in citations - is this the use case? Seems ripe for AI
+
+References get added to a folder in workfront whenever they start working on the collateral 
+Doc wise- typically PDFs, can be word docs and occasionally a video
+
+Best practice to highlight in the paper where the claim is supported 
+
+Possible that there is a claim that doesn't have a reference - should be flagged somehow 
+
+interface - upload documents & reference and highlight where they are found, give a summary table of 
+
+Expected that adobe Workfront integrations are expensive - but this would be ideal. Hop back to workfront to make edits.
+	does workfront have a test environment? 
+
+Accuracy - super important
+
+
 
 Internal note - we have done a very similar use case, chatbot on top of research papers specifically for claim verification for marketing. Need to reconnect with Jada Berenguer
