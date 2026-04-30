@@ -25,9 +25,11 @@ Possible that there is a claim that doesn't have a reference - should be flagged
 
 interface - upload documents & reference and highlight where they are found, give a summary table of 
 
-Expected that adobe Workfront integrations are expensive - but this would be ideal
+Expected that adobe Workfront integrations are expensive - but this would be ideal. Hop back to workfront to make edits.
+	does workfront have a test environment? 
 
 Accuracy - super important
+
 
 
 Internal note - we have done a very similar use case, chatbot on top of research papers specifically for claim verification for marketing. Need to reconnect with Jada Berenguer
