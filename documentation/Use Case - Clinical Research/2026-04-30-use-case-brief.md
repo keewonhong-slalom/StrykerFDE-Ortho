@@ -1,10 +1,223 @@
 # Ortho Clinical Research AI — Use Case Brief
 
-**Date:** April 30, 2026
+**Date:** May 1, 2026
 **Audience:** Internal AI Consulting Team
 **Source Meeting:** Ortho Clinical Research Deep Dive — April 30, 2026
-**Source Reference:** Clinical Research AI Use Case.pptx
+**Source Reference:** Clinical Research AI Use Case.pptx; Deep Dive Meeting Transcript (AI CoE FDE Deep Dive)
+**Stryker Attendees:** Dmytro Turchak, Emily Hampp, Belinda Wagner, Dianet Perez, Alfonso Perez
 **Author:** AI Consulting Team
+
+---
+
+## Executive Summary
+
+The Stryker JR Clinical Research team performs first-pass review of clinical collateral to verify that every claim is supported by scientific evidence — a process that takes up to 5 hours per reviewer, involves 3 independent reviewers (Clinical, Regulatory, Legal), and cannot scale. The MVP — UR#001–004, claim verification without ReadCube integration — is projected to deliver a **65% reduction in review time**. Two AI use cases are fully scoped with written requirements: **UC1: Claim Verification & Evidence Grounding** (MVP, prototype-ready) and **UC2: Literature Search & Reference Discovery** (Phase 2, gated on ReadCube API access). The team has prior internal work on a similar use case; brief with Jada Berenguer before any new scoping begins.
+
+---
+
+## Background & Attendees
+
+**Stryker SMEs:**
+- **Emily Hampp** — Clinical Research reviewer; primary day-to-day user of the process; one of two knowledge SMEs
+- **Belinda Wagner** — Medical writer / clinical research expert; second SME; brings patient reported outcome (PRO) methodology expertise
+- **Dmytro Turchak** — Presenting the use case; driving the AI initiative
+- **Dianet Perez** — Stryker sponsor; owns enterprise Workfront relationship context
+- **Alfonso Perez** — Technical contributor; raised Chrome plugin / desktop automation integration angle
+
+The JR Clinical Research team reviews marketing and product development collateral to confirm that every clinical, performance, or outcome claim is accurately supported by a referenced source. The current workflow is centered on Adobe Workfront for intake and file management, PDFs as the primary document format, and ReadCube Papers as the literature repository.
+
+**Current workflow chain:**
+1. **Intake** — Collateral document (PDF, Word, occasionally video) enters via Adobe Workfront
+2. **Claim Identification** — Reviewer reads sentence by sentence, flagging all citation-relevant claims (vs. general knowledge statements)
+3. **Reference Resolution** — References are cited as numbers (e.g., "[1]–[7]") in the document; reviewer must scroll to the bibliography, read each title, open the PDF, and match it to the claim — **PDFs often have garbled file names (e.g., "S-0253")** requiring manual renaming before the content can even be evaluated
+4. **Reference Verification** — Reviewer opens each reference, finds the exact supporting passage, and verifies alignment; best practice is to highlight the passage in the paper
+5. **Missing Reference Investigation** — If a reference is missing or insufficient, reviewer searches ReadCube for supporting literature and creates a reference folder in Workfront
+6. **Output** — Reviewed document with Supported / Partially Supported / Not Supported designations per claim; references organized in Workfront
+
+**Scale of the problem:**
+- **3 independent reviewer groups** (Clinical Research, Regulatory, Legal) all perform the same review — the same 5-hour process is repeated three times per collateral package
+- Effectively ~15 hours of combined reviewer time per review at current state
+- Dmytro: *"The most important thing is not just the money saving, it's the quality and consistency."*
+
+**Key context:**
+- **Adobe Workfront** — Enterprise Adobe product owned by Doug Johns; Dianet believes a sandbox/dev environment exists. Alfonso raised the possibility of a Chrome plugin or desktop automation agent ("First Review Agent") as a lighter-weight integration path vs. a full Workfront API integration.
+- **ReadCube** — Licensed literature repository; API access appears to be included in the subscription but ToS for programmatic access and non-licensed user access must be confirmed
+- **Accuracy is paramount** — output is client-facing; a missed or unsupported claim is a reputational risk
+- **No formal accuracy rubric today** — Supported / Partially Supported / Not Supported designations are currently in Emily's and Belinda's heads; not documented
+- **Prior internal work exists** — a chatbot on research papers for claim verification was built; contact is Jada Berenguer (AI excellence team)
+
+---
+
+## Use Case #1: Claim Verification & Evidence Grounding
+
+### What It Is
+AI ingests a collateral document and its reference set, automatically identifies all sentence-level citation-relevant claims (distinguishing them from general knowledge statements), resolves each reference using PDF metadata to match bibliography entries, maps each claim to its supporting reference(s), and produces a structured Reviewer Summary Table with a support classification, rationale, and AI confidence level per claim.
+
+> *"This capability is strictly assistive. All final decisions remain with the Clinical Research reviewer."* — Case Study Deck
+
+### Current State
+- **Single-sentence density**: A single collateral sentence may have 7+ references; the reviewer doesn't know what they are without scrolling to the bibliography
+- **PDF naming problem**: Downloaded references often have garbled file names — reviewers must manually open and rename each file before evaluating it. AI can read PDF metadata and match it to the correct bibliography entry — **this alone is a meaningful time savings**
+- **1 review = 5 hours × 3 reviewer groups** — ~15 hours of combined review labor per collateral package
+- Limited traceability: no structured record of which passage in which reference supports which claim
+- Accuracy criteria are informal; the rules exist only in Emily's and Belinda's heads
+
+### Supported / Partially Supported / Not Supported — Working Definition (from Emily & Belinda)
+
+The meeting surfaced the most concrete description of these designations to date:
+
+| Classification | Definition | Example |
+|---|---|---|
+| **Supported** | Reference directly studies the claimed outcome and shows the result. Specific, quantifiable claims are easiest (e.g., "98% satisfaction") — point to that number in the paper. | Claim: "associated with patient satisfaction." Reference: study measures satisfaction, shows upper-90s results. ✅ |
+| **Partially Supported** | Reference addresses the general topic but doesn't study all components of the claim. | Claim: "associated with stability AND satisfaction." Reference: only studied satisfaction, not stability. Rationale: "study did not measure stability." ⚠️ |
+| **Not Supported** | Reference doesn't address the claimed outcome(s) at all. | Claim attributes an outcome the referenced study did not measure. ❌ |
+
+**Key nuance from Belinda**: Patient Reported Outcomes (PROs) are validated measurement instruments. Claims about pain reduction may be embedded in a PRO without being explicitly stated — this required Belinda to build a full mapping table when challenged by a notified body deficiency question. AI will need to understand PRO methodology to handle these cases well.
+
+**Accuracy approach**: The team envisions a series of prompts corresponding to similar metric types (satisfaction, pain, function, etc.) that the agent can apply consistently. Confidence level should indicate when the AI couldn't make a determination — so Emily can prioritize where to focus her review time.
+
+### AI's Job
+| Input | Output |
+|-------|--------|
+| Collateral document (PDF / Word) | Reviewer Summary Table (see requirements below) |
+| Reference folder (PDFs) | Per-claim classification: Supported / Partially Supported / Not Supported |
+| | Rationale and AI confidence level per claim |
+| | Highlighted passage in each reference showing where support is found |
+| | Flagged claims with missing or insufficient references |
+| | PDF metadata resolution — match garbled file names to bibliography entries |
+
+### Formal User Requirements (from Case Study Deck)
+
+| UR# | Requirement | MVP? |
+|-----|-------------|------|
+| **UR#001** | Standalone application interface that automates first-pass review. Shall not automate, replace, or bypass Regulatory, Legal, or Marketing Quality review or approval activities. | ✅ MVP |
+| **UR#002** | Upload one or more collateral documents for ingestion. Upload supporting references as a separate reference folder. | ✅ MVP |
+| **UR#003** | Automatically identify sentence-level clinical or performance claims (ignoring general knowledge statements), with traceability to original page/slide. Evaluate whether references support each claim. Classify as Supported / Partially Supported / Not Supported with rationale and AI confidence level. Generate Reviewer Summary Table. | ✅ MVP |
+| **UR#004** | For claims classified as Partially Supported or Not Supported, suggest alternative wording aligned to available evidence. | ✅ MVP |
+| **UR#005** | Search ReadCube for missing or potentially outdated references. Suggest up to 3 candidate references per claim. Present structured discovery report. | Phase 2 |
+
+> Dmytro: *"UR#001–004 is the MVP. That's already a 65% reduction in review time. UR#005 is more effort because we have to integrate external search — it's not easy to deliver."*
+
+### Reviewer Summary Table — Required Columns
+| Page / Slide | Claim Text | Reference(s) | Classification | Rationale | AI Confidence |
+|---|---|---|---|---|---|
+
+### Key Design Considerations
+- **PDF metadata resolution is quick win #1**: AI matching garbled file names to bibliography entries is a concrete, demonstrable value — even before any claim-level reasoning
+- **Accuracy rubric is a prerequisite**: Emily and Belinda must document their mental models before AI output can be evaluated — this is the single highest-risk undefined item. Approach: example-based prompt engineering using real before/after cases
+- **Claim boundary clarity**: AI must distinguish citation-relevant claims from general knowledge statements — needs agreed-upon examples of each
+- **Strictly assistive scope**: UR#001 prohibits replacing Regulatory, Legal, or Marketing Quality review. Firm constraint.
+- **Confidence level = reviewer's triage tool**: When AI can't determine support level, confidence score surfaces this so Emily knows where to focus attention
+- **Crawl / Walk / Run framing** (from the session):
+  - **Crawl**: Surface the spot in the paper where the claim may be supported — reviewer still makes the call
+  - **Walk**: Apply reasoning to make a classification recommendation — reviewer validates
+  - **Run**: Full classification with confidence score, alternative wording, and reference suggestions
+- **Workfront integration options**: (1) standalone app with direct upload (fastest to deliver), (2) Chrome plugin / desktop automation agent ("First Review Agent" framing from Alfonso), (3) full Workfront API integration (ideal but expensive). Recommend starting with (1).
+- **Internal precedent**: Jada Berenguer built a similar claim verification chatbot — must brief before scoping
+
+### Open Questions
+- [ ] Can we get 2–3 sample collateral documents + reference sets (zipped) to prototype against? (Rachel/Victoria asked; Emily agreed)
+- [ ] What are worked examples of Supported / Partially Supported / Not Supported with real collateral text? (Emily and Belinda to document)
+- [ ] How are general knowledge statements currently distinguished from citation-relevant claims in practice?
+- [ ] What is the current volume — how many reviews per month/quarter? How many collateral packages per year?
+- [ ] Is there a Workfront sandbox / UAT environment? (Dianet believes there is; owned by Doug Johns — needs confirmation)
+- [ ] What did Jada Berenguer build — what model, what data, what outputs? What can be reused?
+- [ ] Can additional business value be quantified? Specifically: (1) speed to market benefit (marketing posts faster → first-mover advantage), (2) audit prep cost reduction. Belinda said *"pretty easy to have hard numbers"* — follow up.
+
+---
+
+## Use Case #2: Literature Search & Reference Discovery (Phase 2)
+
+### What It Is
+When a claim is flagged as Partially Supported, Not Supported, or missing a reference entirely, AI searches the ReadCube library to surface up to three candidate references per claim, flags potentially outdated references where newer evidence may exist, and presents results in a structured report. Also covers alternative wording suggestions for unsupported claims.
+
+**Two sub-processes within UR#005 (clarified by Kee-Won and Dmytro):**
+1. **Missing reference search** — Scan every identified clinical claim for absence of a reference; search ReadCube for supporting literature
+2. **Outdated reference check** — For existing references in the upload folder, check ReadCube for newer equivalent evidence; flag where a more current study exists
+
+### Current State
+- Missing reference investigation is entirely manual via ReadCube Papers search
+- ReadCube's AI Assistant currently allows chatting across **only 20 documents at a time** — insufficient for full-library search
+- ReadCube has an **Auto Deposit Search** feature that can automatically import new content matching saved search terms into a library — a native capability available today
+- Non-CR colleagues (Marketing, Product Development) cannot self-serve literature requests today — always routed through the CR team
+
+### AI's Job
+| Input | Output |
+|-------|--------|
+| Claims flagged as Partially Supported, Not Supported, or missing a reference | Structured reference discovery report |
+| ReadCube library (via API) | Up to 3 candidate references per claim with publication date and confidence |
+| | Flag where newer evidence exists for existing references |
+| | Alternative claim wording suggestions aligned to available evidence (UR#004) |
+
+### Formal User Requirements
+
+| UR# | Requirement |
+|-----|-------------|
+| **UR#005** | Search ReadCube for claims missing references or supported by potentially outdated references. Suggest up to 3 candidate references per claim. Present results in a structured report including: claim identifier, page/slide number, reason for flagging, existing reference(s), suggested ReadCube reference(s) (max 3), publication date, indicator of newer evidence (Yes/No), AI confidence level, rationale. |
+
+### Reference Discovery Report — Required Columns
+| Claim | Page / Slide | Flag Reason | Existing Reference(s) | Suggested Reference(s) | Pub. Date | Newer Evidence? | AI Confidence | Rationale |
+|---|---|---|---|---|---|---|---|---|
+
+### Key Design Considerations
+- **ReadCube API access gates this use case** — confirm programmatic access is included in the subscription and ToS permits it
+- **Suggestions are assistive, not authoritative** — Dmytro: *"I don't believe it can get 100% accurate references right away. It should suggest, and the decision is the reviewer's."*
+- **Auto Deposit Search as a proxy** — Can be configured today (no custom AI build) to address proactive new literature monitoring
+- **ReadCube roadmap** — 20-document AI Assistant cap is a known limitation; worth contacting ReadCube directly to understand timeline
+- **Non-licensed user access** — Future requirement for Marketing / Product Development self-serve; ToS must be reviewed
+
+### Open Questions
+- [ ] ReadCube ToS: is programmatic API access permitted?
+- [ ] ReadCube ToS: can non-licensed Marketing / Product Development users access outputs?
+- [ ] Has anyone contacted ReadCube about their AI roadmap?
+- [ ] Would Auto Deposit Search address the proactive monitoring need sufficiently as a Phase 1 proxy?
+
+---
+
+## Business Case
+
+| Scenario | Basis | Time Reduction | Notes |
+|----------|-------|---------------|-------|
+| **Realistic — MVP (UR#001–004)** | UR#001–004 delivered, no ReadCube integration | **65%** | Dmytro's stated projection from the deck |
+| **Aggressive — Full (UR#001–005)** | All requirements including ReadCube integration | Higher | Not yet quantified |
+
+**Additional value dimensions raised in the meeting:**
+- **Speed to market**: Marketing review cycle takes weeks; faster AI-assisted review means LinkedIn/social posts and collateral go out sooner — first-mover advantage vs. competitors
+- **Audit readiness**: Reducing cost of preparing responses to notified body deficiency questions (e.g., Belinda's PRO mapping exercise). Belinda: *"Pretty easy to have hard numbers for this."*
+- **Broader applicability**: Regulatory, Legal, and Quality functions all perform the same review — if the tool works for Clinical Research, it can expand to those groups, multiplying the value
+
+> Turchak: *"Here we're only talking about clinical, but regulatory and legal have eyes on this too. These are expensive resources."*
+
+---
+
+## Cross-Cutting Themes & Observations
+
+| Theme | Detail |
+|-------|--------|
+| **Prior internal build** | Jada Berenguer built a similar claim verification chatbot on research papers. Must brief before any new scoping — significant re-use potential. |
+| **Requirements are already written** | UR#001–005 are documented. Prototype scoping can move quickly once sample data and the accuracy rubric are in hand. |
+| **Accuracy rubric is the critical path** | No documented rubric exists. Emily and Belinda are the SMEs. Approach: example-based prompt download. This is the highest-risk undefined item. |
+| **PDF metadata resolution is the overlooked quick win** | Garbled file names are a daily friction point. AI resolving PDF metadata to bibliography entries is demonstrable value even before claim reasoning begins. |
+| **Strictly assistive scope** | UR#001 prohibits replacing Regulatory, Legal, or Marketing Quality review. Firm constraint; limits automation ceiling but reduces regulatory complexity. |
+| **Crawl / Walk / Run is already the team's mental model** | The Crawl — surfacing the supporting passage without making the call — is already high-value. Don't over-engineer V1. |
+| **Workfront sandbox** | Dianet believes a sandbox exists (owned by Doug Johns). Alfonso's Chrome plugin / desktop automation idea could bridge to Workfront without a full API build. Confirm before ruling either option out. |
+| **Broader expansion** | Dmytro explicitly stated Regulatory, Legal, Quality, and other functions could use the same tool. This is a platform play, not a point solution. |
+
+---
+
+## Recommended Next Steps
+
+1. **Brief with Jada Berenguer** — Understand the prior claim verification build before any scoping. What was built, what worked, what can be reused.
+2. **Obtain sample data** — Emily agreed to provide 2–3 zipped collateral packages (marketing collateral + reference folder). Gating item for UC1 prototype.
+3. **Document the accuracy rubric** — Emily and Belinda to produce worked examples of Supported / Partially Supported / Not Supported using real collateral text. Inputs to prototype prompt engineering.
+4. **Confirm Workfront sandbox** — Follow up with Doug Johns (or Dianet) to confirm existence of a UAT/dev environment.
+5. **Confirm ReadCube API access and ToS** — Verify programmatic access and non-licensed user access rules. Gates UC2.
+6. **Quantify additional business value** — Belinda and Emily to connect with someone who can estimate speed-to-market and audit prep cost numbers. Strengthens the business case beyond the $550–$730 baseline.
+7. **Prototype UC1 (MVP) in 1–2 weeks** — Happy path: upload collateral PDF + reference folder → PDF metadata resolution + Reviewer Summary Table with classification, rationale, and confidence per claim. Scope against UR#001–003.
+
+---
+
+*Sources: April 30, 2026 Ortho Clinical Research Deep Dive notes (KH, VA); Clinical Research AI Use Case.pptx; AI CoE FDE Deep Dive meeting transcript (May 1, 2026)*
 
 ---
 
