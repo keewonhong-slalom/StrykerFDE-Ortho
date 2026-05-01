@@ -34,6 +34,8 @@ Goal is speed and accuracy
 Pain points w arch?
 	Delegating limit w power app
 	Size issues - may
-	Connected to everyone's accounts
+	Connected to everyone's specific accounts
 	Power automate - every dept needs own environment - contain costs, admin, for each env
 	Today - solution based/project based 
+	Looking for PP best practices
+
