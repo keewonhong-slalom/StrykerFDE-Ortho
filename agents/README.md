@@ -11,6 +11,8 @@ Custom Copilot agent and prompt files for the Stryker Ortho Business Unit AI con
 | `slide-content.prompt.md` | Generate slide deck content and talking points |
 | `scoring-sheet.prompt.md` | Populate a scoring or evaluation sheet from provided criteria and data |
 | `short-use-case-summary.prompt.md` | Generate a short use case summary card with description and VALUE / COST / EFFORT / REACH scores |
+| `sync-to-sharepoint.prompt.md` | Sync `documentation/` to the OneDrive-linked SharePoint library (supports `--dry-run`) |
+| `copy-to-onedrive.prompt.md` | Copy `documentation/` to any OneDrive folder — pass the destination path as an argument |
 
 ## Usage
 
